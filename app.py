@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
+# from flask_cors import CORS
 import util
+import os
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_folder='static')
+# CORS(app)
 
 @app.route('/')
 def index():
@@ -17,8 +18,8 @@ def get_location_names():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/predict_home_price', methods=['POST'])
+def predict_home_price():
     total_sqft = float(request.form['total_sqft'])
     location = request.form['location']
     bhk = int(request.form['bhk'])
@@ -33,4 +34,5 @@ def predict():
 if __name__ == "__main__":
     print("Starting Python Flask Server For Home Price Prediction...")
     util.load_saved_artifacts()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(debug=True, host='0.0.0.0', port=port)
