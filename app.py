@@ -1,14 +1,14 @@
-from flask import Flask, request, jsonify, render_template
-# from flask_cors import CORS
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import util
 import os
 
-app = Flask(__name__, static_folder='static')
-# CORS(app)
+app = Flask(__name__)
+CORS(app)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 @app.route('/get_location_names', methods=['GET'])
 def get_location_names():
@@ -34,5 +34,5 @@ def predict_home_price():
 if __name__ == "__main__":
     print("Starting Python Flask Server For Home Price Prediction...")
     util.load_saved_artifacts()
-    port = int(os.environ.get("PORT", 10000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
